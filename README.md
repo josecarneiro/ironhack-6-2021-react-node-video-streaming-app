@@ -7,32 +7,24 @@ Our application is divided between a client-side ReactJS application and a serve
 ### Models
 
 - User
-
   - name - String
   - email - String
   - passwordHashAndSalt - String
   - role - String, either 'viewer' or 'creator'
   - creditCardToken - String, provided by Stripe (should exist for viewers only).
-
 - Course
-
   - title - String
   - description - String
   - creator - ObjectId, refers to user document
   - episodes - Array of ObjectId, refers to episode document
-
 - Episode
-
   - title - String
   - url - String
-
 - Subscription
-
   - user - ObjectId, refers to user document
   - startDate - Date
   - nextBillingDate - Date
   - active - Boolean
-
 - Charge
   - subscription - ObjectId, refers to subscription document
   - date - Date
@@ -48,16 +40,17 @@ Some scripts need to run at predetermined intervals.
 
 // all, authenticated, viewers, creators, visitor
 
-| METHOD | PATH | DESCRIPTION | AUTHENTICATION |
-| GET | "/course/list" | List available courses. | all |
-| GET | "/course/:id" | Load details of single course. | all |
-| GET | "/episode/:id" | Load video URL for specific episode. | viewers |
-| POST | "/authentication/sign-up" | Sign Up. | visitor |
-| POST | "/authentication/sign-in" | Sign In. | visitor |
-| DELETE | "/authentication/sign-out" | Sign Out. | authenticated |
-| GET | "/subscription" | Get status of subscription. | viewers |
-| POST | "/subscription" | Create new viewer subscription (credit card details - stripe token) | viewers |
-| GET | "/settings" | Get settings for current account (email) | authenticated |
+| METHOD | PATH                       | DESCRIPTION                                                         | AUTHENTICATION |
+| ------ | -------------------------- | ------------------------------------------------------------------- | -------------- |
+| GET    | "/course/list"             | List available courses.                                             | all            |
+| GET    | "/course/:id"              | Load details of single course.                                      | all            |
+| GET    | "/episode/:id"             | Load video URL for specific episode.                                | viewers        |
+| POST   | "/authentication/sign-up"  | Sign Up.                                                            | visitor        |
+| POST   | "/authentication/sign-in"  | Sign In.                                                            | visitor        |
+| DELETE | "/authentication/sign-out" | Sign Out.                                                           | authenticated  |
+| GET    | "/subscription"            | Get status of subscription.                                         | viewers        |
+| POST   | "/subscription"            | Create new viewer subscription (credit card details - stripe token) | viewers        |
+| GET    | "/settings"                | Get settings for current account (email)                            | authenticated  |
 
 | POST | "/creator/course" | Create a new course | creators |
 | PATCH | "/creator/course/:id" | Edit single course | creators |
@@ -74,17 +67,18 @@ Some scripts need to run at predetermined intervals.
 
 ### Views
 
-| NAME | DESCRIPTION |
-| Home | Display list of available courses to any user, authenticated or not. If user is not authenticated, they should also see a call to action asking them to join the service or authenticate.
-| Course | Display information about a course, such as title, cover image, description, creator, episode list. Each episode in list should display episode name and possible description.
-| Episode | Display episode video element.
-| SignIn | Show sign in form.
-| SignUp | Show sign up form.
-| CreatorSignUp | Show sign up form.
-| Subscription | Shows subscription status. If no subscription has been made, display credit card form. Otherwise, show subscription details, cancel subscription.
-| Settings | Allow viewers to change account settings (email, password).
-| CourseCreate | Allows creators to add a course (create a CourseForm component which is also shared with CourseManagement view).
-| CourseManagement | Allows creators to manage a course.
+| NAME             | DESCRIPTION                                                                                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home             | Display list of available courses to any user, authenticated or not. If user is not authenticated, they should also see a call to action asking them to join the service or authenticate. |
+| Course           | Display information about a course, such as title, cover image, description, creator, episode list. Each episode in list should display episode name and possible description.            |
+| Episode          | Display episode video element.                                                                                                                                                            |
+| SignIn           | Show sign in form.                                                                                                                                                                        |
+| SignUp           | Show sign up form.                                                                                                                                                                        |
+| CreatorSignUp    | Show sign up form.                                                                                                                                                                        |
+| Subscription     | Shows subscription status. If no subscription has been made, display credit card form. Otherwise, show subscription details, cancel subscription.                                         |
+| Settings         | Allow viewers to change account settings (email, password).                                                                                                                               |
+| CourseCreate     | Allows creators to add a course (create a CourseForm component which is also shared with CourseManagement view).                                                                          |
+| CourseManagement | Allows creators to manage a course.                                                                                                                                                       |
 
 ## Wishlist Items
 
