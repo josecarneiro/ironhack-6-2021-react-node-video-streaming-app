@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { signUp } from './../services/library-api';
+import { signUp } from './../services/authentication';
 
 class SignUpView extends Component {
   constructor() {
@@ -36,6 +36,7 @@ class SignUpView extends Component {
   render() {
     return (
       <div>
+        <h1>Sign Up</h1>
         <form onSubmit={this.handleFormSubmission}>
           <label htmlFor="input-name">Name</label>
           <input

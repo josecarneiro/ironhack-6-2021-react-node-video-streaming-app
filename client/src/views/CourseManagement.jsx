@@ -5,6 +5,7 @@ class CourseManagementView extends Component {
     return (
       <div>
         <h1>Course Management View</h1>
+        <p>Form for course editing</p>
       </div>
     );
   }

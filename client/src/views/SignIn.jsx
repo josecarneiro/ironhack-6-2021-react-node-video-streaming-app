@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { signIn } from '../services/library-api';
+import { signIn } from '../services/authentication';
 
 class SignInView extends Component {
   constructor() {

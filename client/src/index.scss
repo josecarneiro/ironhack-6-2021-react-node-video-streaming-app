@@ -27,3 +27,25 @@ nav {
     margin-right: 1em;
   }
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5em;
+}
+
+button,
+input,
+textarea,
+select {
+  padding: 0.5em;
+  border: 2px solid rgb(207, 207, 207);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  margin-bottom: 1em;
+}

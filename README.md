@@ -40,21 +40,23 @@ Some scripts need to run at predetermined intervals.
 
 // all, authenticated, viewers, creators, visitor
 
-| METHOD | PATH                       | DESCRIPTION                                                         | AUTHENTICATION |
-| ------ | -------------------------- | ------------------------------------------------------------------- | -------------- |
-| GET    | "/course/list"             | List available courses.                                             | all            |
-| GET    | "/course/:id"              | Load details of single course.                                      | all            |
-| GET    | "/episode/:id"             | Load video URL for specific episode.                                | viewers        |
-| POST   | "/authentication/sign-up"  | Sign Up.                                                            | visitor        |
-| POST   | "/authentication/sign-in"  | Sign In.                                                            | visitor        |
-| DELETE | "/authentication/sign-out" | Sign Out.                                                           | authenticated  |
-| GET    | "/subscription"            | Get status of subscription.                                         | viewers        |
-| POST   | "/subscription"            | Create new viewer subscription (credit card details - stripe token) | viewers        |
-| GET    | "/settings"                | Get settings for current account (email)                            | authenticated  |
-
-| POST | "/creator/course" | Create a new course | creators |
-| PATCH | "/creator/course/:id" | Edit single course | creators |
-| POST | "/creator/course/:id/episode" | Add each episode individually. | creators |
+| METHOD | PATH                          | DESCRIPTION                                                             | AUTHENTICATION |
+| ------ | ----------------------------- | ----------------------------------------------------------------------- | -------------- |
+| GET    | "/course/list"                | List available courses.                                                 | all            |
+| GET    | "/course/:id"                 | Load details of single course.                                          | all            |
+| GET    | "/episode/:id"                | Load video URL for specific episode.                                    | viewers        |
+| POST   | "/authentication/sign-up"     | Sign Up.                                                                | visitor        |
+| POST   | "/authentication/sign-in"     | Sign In.                                                                | visitor        |
+| DELETE | "/authentication/sign-out"    | Sign Out.                                                               | authenticated  |
+| GET    | "/subscription"               | Get status of subscription.                                             | viewers        |
+| POST   | "/subscription"               | Create new viewer subscription (credit card details - stripe token)     | viewers        |
+| GET    | "/settings"                   | Get settings for current account (email)                                | authenticated  |
+| GET    | "/creator/course/list"        | List all of creator's courses                                           | creators       |
+| POST   | "/creator/course"             | Create a new course                                                     | creators       |
+| PATCH  | "/creator/course/:id"         | Edit single course                                                      | creators       |
+| DELETE | "/creator/course/:id"         | Delete single course                                                    | creators       |
+| POST   | "/creator/course/:id/episode" | Add each episode individually.                                          | creators       |
+| GET    | "/file-upload-authentication" | Allow imagekit to generate a signed URL that can be used to upload file | creators       |
 
 // GET - Load data
 // POST - Create new resource
@@ -78,6 +80,7 @@ Some scripts need to run at predetermined intervals.
 | Subscription     | Shows subscription status. If no subscription has been made, display credit card form. Otherwise, show subscription details, cancel subscription.                                         |
 | Settings         | Allow viewers to change account settings (email, password).                                                                                                                               |
 | CourseCreate     | Allows creators to add a course (create a CourseForm component which is also shared with CourseManagement view).                                                                          |
+| CourseList       | Shows a creator all of their courses.                                                                                                                                                     |
 | CourseManagement | Allows creators to manage a course.                                                                                                                                                       |
 
 ## Wishlist Items
@@ -103,3 +106,8 @@ These are some edge cases we won't be considering:
 - Handling payment reversals.
 - Videos are provided as uploaded by the creator to the viewer.
 - Charge is unsuccessful (we won't retry it, just de-activate subscription).
+
+## Other
+
+URL of video to test
+http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4

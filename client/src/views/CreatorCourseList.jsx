@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { listCourses } from './../services/course';
+import { creatorCourseList } from './../services/creator';
 
-class HomeView extends Component {
+class CreatorCourseListView extends Component {
   constructor() {
     super();
     this.state = {
@@ -11,12 +11,12 @@ class HomeView extends Component {
   }
 
   componentDidMount() {
-    listCourses()
+    creatorCourseList()
       .then((courses) => {
         this.setState({ courses });
       })
       .catch((error) => {
-        alert('Something went wrong loading your courses');
+        alert('There was an error loading all of your courses.');
         console.log(error);
       });
   }
@@ -24,12 +24,11 @@ class HomeView extends Component {
   render() {
     return (
       <div>
-        <h1>Edflix</h1>
-        <h3>Here are some of our newest courses</h3>
+        <h1>Creator Course List</h1>
         <ul>
           {this.state.courses.map((course) => (
             <li key={course._id}>
-              <Link to={`/course/${course._id}`}>{course.title}</Link>
+              <Link to={`/course/${course._id}/manage`}>{course.title}</Link>
             </li>
           ))}
         </ul>
@@ -38,4 +37,4 @@ class HomeView extends Component {
   }
 }
 
-export default HomeView;
+export default CreatorCourseListView;

@@ -1,17 +1,4 @@
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http://localhost:3010',
-  withCredentials: true
-});
-
-export const listBooks = () => {
-  return api.get('/books').then((response) => {
-    const data = response.data;
-    const books = data.books;
-    return books;
-  });
-};
+import api from './api';
 
 export const signUp = (body) => {
   return api.post('/authentication/sign-up', body).then((response) => {
