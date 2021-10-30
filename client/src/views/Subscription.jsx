@@ -4,6 +4,7 @@ import {
   createSubscription,
   loadSubscription
 } from '../services/subscription';
+import PaymentForm from './../components/PaymentForm';
 
 class SubscriptionView extends Component {
   constructor() {
@@ -24,11 +25,11 @@ class SubscriptionView extends Component {
       });
   }
 
-  handleSubscriptionCreation = (event) => {
-    event.preventDefault();
-    createSubscription()
+  handleSubscriptionCreation = (paymentMethodToken) => {
+    createSubscription({ paymentMethodToken })
       .then((subscription) => {
         this.setState({ subscription });
+        this.props.onUserRefresh();
       })
       .catch((error) => {
         alert('There was an error creating the subscription.');
@@ -41,6 +42,7 @@ class SubscriptionView extends Component {
     cancelSubscription()
       .then(() => {
         this.setState({ subscription: null });
+        this.props.onUserRefresh();
       })
       .catch((error) => {
         alert('There was an error canceling the subscription.');
@@ -70,10 +72,13 @@ class SubscriptionView extends Component {
               You are not yet subscribed. Please, fill out your credit card
               details and click "Subscribe".
             </p>
-            <form onSubmit={this.handleSubscriptionCreation}>
+            <PaymentForm
+              onConfirmPaymentMethod={this.handleSubscriptionCreation}
+            />
+            {/* <form onSubmit={this.handleSubscriptionCreation}>
               <input type="text" placeholder="Credit Card Number" />
               <button>Subscribe</button>
-            </form>
+            </form> */}
           </div>
         )}
       </div>

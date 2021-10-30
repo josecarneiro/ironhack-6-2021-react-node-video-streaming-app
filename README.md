@@ -11,7 +11,6 @@ Our application is divided between a client-side ReactJS application and a serve
   - email - String
   - passwordHashAndSalt - String
   - role - String, either 'viewer' or 'creator'
-  - creditCardToken - String, provided by Stripe (should exist for viewers only).
 - Course
   - title - String
   - description - String
@@ -25,6 +24,7 @@ Our application is divided between a client-side ReactJS application and a serve
   - startDate - Date
   - nextBillingDate - Date
   - active - Boolean
+  - customerId - String, provided by Stripe (should exist for viewers only).
 - Charge
   - subscription - ObjectId, refers to subscription document
   - date - Date

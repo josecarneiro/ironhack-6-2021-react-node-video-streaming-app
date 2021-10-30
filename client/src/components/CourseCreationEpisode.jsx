@@ -28,19 +28,12 @@ class CourseCreationEpisode extends Component {
           value={this.props.episode.title}
           onChange={this.handleInputChange}
         />
-        {/* <label htmlFor="input-file">Video URL</label>
-        <input
-          id="input-file"
-          type="text"
-          placeholder="URL"
-          name="url"
-          value={this.props.episode.url}
-          onChange={this.handleInputChange}
-        /> */}
         <IKUpload
-          urlEndpoint="https://ik.imagekit.io/mt7m0yaczq1"
-          publicKey="public_E+GMs/gXx1yMKtlWGwOHLLKBmFY="
-          authenticationEndpoint="http://localhost:3010/file-upload-authentication"
+          urlEndpoint={process.env.REACT_APP_IMAGEKIT_URL_ENDPOINT}
+          publicKey={process.env.REACT_APP_IMAGEKIT_PUBLIC_KEY}
+          authenticationEndpoint={
+            process.env.REACT_APP_IMAGEKIT_AUTHENTICATION_ENDPOINT
+          }
           onSuccess={this.handleUploadSuccess}
           onError={this.handleUploadError}
         />

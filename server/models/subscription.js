@@ -19,6 +19,14 @@ const schema = new mongoose.Schema({
   active: {
     type: Boolean,
     required: true
+  },
+  customerId: {
+    type: String,
+    required: true
+  },
+  paymentMethodToken: {
+    type: String,
+    required: true
   }
 });
 

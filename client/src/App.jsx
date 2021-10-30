@@ -19,11 +19,16 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: null
+      user: null,
+      loaded: false
     };
   }
 
   componentDidMount() {
+    this.loadUser();
+  }
+
+  loadUser = () => {
     loadAuthenticatedUser()
       .then((user) => {
         if (user) {
@@ -32,8 +37,11 @@ class App extends Component {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        this.setState({ loaded: true });
       });
-  }
+  };
 
   handleAuthenticationChange = (user) => {
     this.setState({ user });
@@ -53,7 +61,7 @@ class App extends Component {
           <Route path="/" component={HomeView} exact />
           <ProtectedRoute
             path="/sign-up"
-            authorized={!this.state.user}
+            authorized={!this.state.loaded || !this.state.user}
             redirect="/"
             render={(props) => (
               <SignUpView
@@ -65,7 +73,7 @@ class App extends Component {
           />
           <ProtectedRoute
             path="/sign-in"
-            authorized={!this.state.user}
+            authorized={!this.state.loaded || !this.state.user}
             redirect="/"
             render={(props) => (
               <SignInView
@@ -78,32 +86,44 @@ class App extends Component {
           <ProtectedRoute
             path="/course/list"
             redirect="/sign-up"
-            authorized={this.state.user && this.state.user.role === 'creator'}
+            authorized={
+              !this.state.loaded ||
+              (this.state.user && this.state.user.role === 'creator')
+            }
             component={CreatorCourseListView}
           />
           <ProtectedRoute
             path="/course/create"
             redirect="/sign-up"
-            authorized={this.state.user && this.state.user.role === 'creator'}
+            authorized={
+              !this.state.loaded ||
+              (this.state.user && this.state.user.role === 'creator')
+            }
             component={CourseCreateView}
           />
           <ProtectedRoute
             path="/course/:id/manage"
             redirect="/sign-up"
-            authorized={this.state.user && this.state.user.role === 'creator'}
+            authorized={
+              !this.state.loaded ||
+              (this.state.user && this.state.user.role === 'creator')
+            }
             component={CourseManagementView}
           />
           <Route path="/course/:id" component={CourseView} exact />
           <ProtectedRoute
             path="/episode/:id"
-            redirect="/sign-up"
-            authorized={this.state.user}
+            redirect={this.state.user ? '/subscription' : '/sign-up'}
+            authorized={
+              !this.state.loaded ||
+              (this.state.user && this.state.user.subscription)
+            }
             component={EpisodeView}
           />
           <ProtectedRoute
             path="/sign-up-creator"
             redirect="/"
-            authorized={!this.state.user}
+            authorized={!this.state.loaded || !this.state.user}
             render={(props) => (
               <CreatorSignUpView
                 {...props}
@@ -114,14 +134,19 @@ class App extends Component {
           <ProtectedRoute
             path="/settings"
             redirect="/sign-up"
-            authorized={this.state.user}
+            authorized={!this.state.loaded || this.state.user}
             component={SettingsView}
           />
           <ProtectedRoute
             path="/subscription"
             redirect="/sign-up"
-            authorized={this.state.user && this.state.user.role === 'viewer'}
-            component={SubscriptionView}
+            authorized={
+              !this.state.loaded ||
+              (this.state.user && this.state.user.role === 'viewer')
+            }
+            render={(props) => (
+              <SubscriptionView {...props} onUserRefresh={this.loadUser} />
+            )}
           />
         </Switch>
       </BrowserRouter>

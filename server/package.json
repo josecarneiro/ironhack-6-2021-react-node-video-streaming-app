@@ -20,7 +20,8 @@
     "imagekit": "^3.2.2",
     "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "stripe": "^8.184.0"
   },
   "devDependencies": {
     "mocha": "^8.2.1",

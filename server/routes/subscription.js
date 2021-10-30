@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const routeGuard = require('./../middleware/route-guard');
 const Subscription = require('./../models/subscription');
+const stripeApi = require('./../utils/stripe-api');
 
 router.get('/', routeGuard, (req, res, next) => {
   Subscription.findOne({ user: req.user._id, active: true })
@@ -15,16 +16,24 @@ router.get('/', routeGuard, (req, res, next) => {
     });
 });
 
-// const SUBSCRIPTION_DURATION = 1000 * 60 * 60 * 24 * (365.25 / 12);
-const SUBSCRIPTION_DURATION = 1000 * 60;
-
 router.post('/', (req, res, next) => {
-  Subscription.create({
-    user: req.user._id,
-    startDate: new Date(),
-    nextBillingDate: new Date(Date.now() + SUBSCRIPTION_DURATION),
-    active: true
-  })
+  const { paymentMethodToken } = req.body;
+  stripeApi.customers
+    .create({
+      name: req.user.name,
+      email: req.user.email,
+      payment_method: paymentMethodToken
+    })
+    .then((customer) => {
+      return Subscription.create({
+        user: req.user._id,
+        startDate: new Date(),
+        nextBillingDate: new Date(),
+        active: true,
+        customerId: customer.id,
+        paymentMethodToken
+      });
+    })
     .then((subscription) => {
       res.json({ subscription });
     })
@@ -33,10 +42,11 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.patch('/', (req, res, next) => {
-  Subscription.findOneAndUpdate({
-    active: false
-  })
+router.patch('/', routeGuard, (req, res, next) => {
+  Subscription.findOneAndUpdate(
+    { user: req.user._id, active: true },
+    { active: false }
+  )
     .then(() => {
       res.json({});
     })

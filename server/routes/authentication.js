@@ -44,7 +44,8 @@ router.post('/sign-in', (req, res, next) => {
     .then((result) => {
       if (result) {
         req.session.userId = user._id;
-        res.json({ user });
+        // res.json({ user });
+        res.redirect('/authentication/me');
       } else {
         return Promise.reject(new Error('Wrong password.'));
       }
