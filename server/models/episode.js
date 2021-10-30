@@ -12,7 +12,6 @@ const schema = new mongoose.Schema({
   url: {
     type: String,
     trim: true,
-    lowercase: true,
     required: true
   }
 });

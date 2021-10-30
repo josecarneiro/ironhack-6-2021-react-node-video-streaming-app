@@ -2,21 +2,17 @@
 
 const express = require('express');
 const router = express.Router();
-const routeGuard = require('./../middleware/route-guard');
+const Imagekit = require('imagekit');
 
-router.get('/', (req, res, next) => {
-  res.json({ message: 'Hello world' });
-  // res.json({ type: 'success', data: { title: 'Hello World' } });
+const imagekit = new Imagekit({
+  urlEndpoint: 'https://ik.imagekit.io/mt7m0yaczq1',
+  privateKey: '',
+  publicKey: 'public_E+GMs/gXx1yMKtlWGwOHLLKBmFY='
 });
 
-router.get('/books', (req, res, next) => {
-  res.json({
-    books: [{ title: 'The Master Algorithm', author: 'Pedro Domingos' }]
-  });
-});
-
-router.get('/private', routeGuard, (req, res, next) => {
-  res.json({});
+router.get('/file-upload-authentication', (req, res, next) => {
+  const credentials = imagekit.getAuthenticationParameters();
+  res.json(credentials);
 });
 
 module.exports = router;

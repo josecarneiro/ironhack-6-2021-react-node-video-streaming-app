@@ -1,45 +1,14 @@
 import { Component } from 'react';
 import { creatorCourseCreate } from './../services/creator';
-
-class CourseCreationEpisode extends Component {
-  handleInputChange = (event) => {
-    const { name, value } = event.target;
-    this.props.onChange({ [name]: value });
-  };
-
-  render() {
-    return (
-      <>
-        <label htmlFor="input-title">Episode Title</label>
-        <input
-          id="input-title"
-          type="text"
-          placeholder="Episode Title"
-          name="title"
-          value={this.props.episode.title}
-          onChange={this.handleInputChange}
-        />
-        <label htmlFor="input-file">Video URL</label>
-        <input
-          id="input-file"
-          type="text"
-          placeholder="URL"
-          name="url"
-          value={this.props.episode.url}
-          onChange={this.handleInputChange}
-        />
-      </>
-    );
-  }
-}
+import CourseCreationEpisode from './../components/CourseCreationEpisode';
 
 class CourseCreateView extends Component {
   constructor() {
     super();
     this.state = {
-      title: '',
-      description: '',
-      episodes: []
+      title: 'Introduction to JavaScript',
+      description: 'JavaScript topics for beginners.',
+      episodes: [{ _id: 'abc', title: 'Episode 1: Value Types', url: '' }]
     };
   }
 
@@ -48,7 +17,6 @@ class CourseCreateView extends Component {
     const { title, description, episodes } = this.state;
     creatorCourseCreate({ title, description, episodes })
       .then((course) => {
-        alert('Course was created ' + course._id);
         this.props.history.push('/course/list');
       })
       .catch((error) => {
@@ -64,7 +32,10 @@ class CourseCreateView extends Component {
 
   handleEpisodeAddition = () => {
     this.setState((previousState) => ({
-      episodes: [...previousState.episodes, { _id: String(Math.random()) }]
+      episodes: [
+        ...previousState.episodes,
+        { _id: String(Math.random()), title: '', url: '' }
+      ]
     }));
   };
 

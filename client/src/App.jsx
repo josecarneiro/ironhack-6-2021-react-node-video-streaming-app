@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import HomeView from './views/Home';
 import SignUpView from './views/SignUp';
 import SignInView from './views/SignIn';
@@ -13,6 +13,7 @@ import SubscriptionView from './views/Subscription';
 import CreatorCourseListView from './views/CreatorCourseList';
 import { signOut, loadAuthenticatedUser } from './services/authentication';
 import ProtectedRoute from './components/ProtectedRoute';
+import Navigation from './components/Navigation';
 
 class App extends Component {
   constructor() {
@@ -46,110 +47,84 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <BrowserRouter>
-          <nav>
-            <Link to="/">Edflix</Link>
-            {(this.state.user && (
-              <>
-                <span>Welcome {this.state.user.name}</span>
-                <button onClick={this.handleSignOut}>Sign Out</button>
-                <Link to="/settings">Settings</Link>
-              </>
-            )) || (
-              <>
-                <Link to="/sign-up">Sign Up</Link>
-                <Link to="/sign-in">Sign In</Link>
-                <Link to="/sign-up-creator">Sign Up as Creator</Link>
-              </>
+      <BrowserRouter>
+        <Navigation user={this.state.user} onSignOut={this.handleSignOut} />
+        <Switch>
+          <Route path="/" component={HomeView} exact />
+          <ProtectedRoute
+            path="/sign-up"
+            authorized={!this.state.user}
+            redirect="/"
+            render={(props) => (
+              <SignUpView
+                {...props}
+                onAuthenticationChange={this.handleAuthenticationChange}
+              />
             )}
-            {this.state.user && this.state.user.role === 'viewer' && (
-              <>
-                <Link to="/course/abc">Course Detail</Link>
-                <Link to="/episode/def">Episode Detail</Link>
-                <Link to="/subscription">Manage Subscription</Link>
-              </>
+            exact
+          />
+          <ProtectedRoute
+            path="/sign-in"
+            authorized={!this.state.user}
+            redirect="/"
+            render={(props) => (
+              <SignInView
+                {...props}
+                onAuthenticationChange={this.handleAuthenticationChange}
+              />
             )}
-            {this.state.user && this.state.user.role === 'creator' && (
-              <>
-                <Link to="/course/list">Course List</Link>
-                <Link to="/course/abc/manage">Course Management</Link>
-                <Link to="/course/create">Create Course</Link>
-              </>
+            exact
+          />
+          <ProtectedRoute
+            path="/course/list"
+            redirect="/sign-up"
+            authorized={this.state.user && this.state.user.role === 'creator'}
+            component={CreatorCourseListView}
+          />
+          <ProtectedRoute
+            path="/course/create"
+            redirect="/sign-up"
+            authorized={this.state.user && this.state.user.role === 'creator'}
+            component={CourseCreateView}
+          />
+          <ProtectedRoute
+            path="/course/:id/manage"
+            redirect="/sign-up"
+            authorized={this.state.user && this.state.user.role === 'creator'}
+            component={CourseManagementView}
+          />
+          <Route path="/course/:id" component={CourseView} exact />
+          <ProtectedRoute
+            path="/episode/:id"
+            redirect="/sign-up"
+            authorized={this.state.user}
+            component={EpisodeView}
+          />
+          <ProtectedRoute
+            path="/sign-up-creator"
+            redirect="/"
+            authorized={!this.state.user}
+            render={(props) => (
+              <CreatorSignUpView
+                {...props}
+                onAuthenticationChange={this.handleAuthenticationChange}
+              />
             )}
-          </nav>
-          <Switch>
-            <Route path="/" component={HomeView} exact />
-            <ProtectedRoute
-              path="/sign-up"
-              authorized={!this.state.user}
-              redirect="/"
-              render={(props) => (
-                <SignUpView
-                  {...props}
-                  onAuthenticationChange={this.handleAuthenticationChange}
-                />
-              )}
-              exact
-            />
-            <ProtectedRoute
-              path="/sign-in"
-              authorized={!this.state.user}
-              redirect="/"
-              render={(props) => (
-                <SignInView
-                  {...props}
-                  onAuthenticationChange={this.handleAuthenticationChange}
-                />
-              )}
-              exact
-            />
-            <ProtectedRoute
-              path="/course/list"
-              redirect="/sign-up"
-              authorized={this.state.user && this.state.user.role === 'creator'}
-              component={CreatorCourseListView}
-            />
-            <ProtectedRoute
-              path="/course/create"
-              redirect="/sign-up"
-              authorized={this.state.user && this.state.user.role === 'creator'}
-              component={CourseCreateView}
-            />
-            <ProtectedRoute
-              path="/course/:id/manage"
-              redirect="/sign-up"
-              authorized={this.state.user && this.state.user.role === 'creator'}
-              component={CourseManagementView}
-            />
-            <Route path="/course/:id" component={CourseView} exact />
-            <ProtectedRoute
-              path="/episode/:id"
-              redirect="/sign-up"
-              authorized={this.state.user}
-              component={EpisodeView}
-            />
-            <ProtectedRoute
-              path="/sign-up-creator"
-              redirect="/"
-              authorized={!this.state.user}
-              component={CreatorSignUpView}
-            />
-            <ProtectedRoute
-              path="/settings"
-              redirect="/sign-up"
-              authorized={this.state.user}
-              component={SettingsView}
-            />
-            <ProtectedRoute
-              path="/subscription"
-              redirect="/sign-up"
-              authorized={this.state.user && this.state.user.role === 'viewer'}
-              component={SubscriptionView}
-            />
-          </Switch>
-        </BrowserRouter>
-      </div>
+          />
+          <ProtectedRoute
+            path="/settings"
+            redirect="/sign-up"
+            authorized={this.state.user}
+            component={SettingsView}
+          />
+          <ProtectedRoute
+            path="/subscription"
+            redirect="/sign-up"
+            authorized={this.state.user && this.state.user.role === 'viewer'}
+            component={SubscriptionView}
+          />
+        </Switch>
+      </BrowserRouter>
     );
   }
 }

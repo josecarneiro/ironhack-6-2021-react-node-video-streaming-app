@@ -50,6 +50,7 @@ Some scripts need to run at predetermined intervals.
 | DELETE | "/authentication/sign-out"    | Sign Out.                                                               | authenticated  |
 | GET    | "/subscription"               | Get status of subscription.                                             | viewers        |
 | POST   | "/subscription"               | Create new viewer subscription (credit card details - stripe token)     | viewers        |
+| PATCH  | "/subscription"               | Create new viewer subscription (credit card details - stripe token)     | viewers        |
 | GET    | "/settings"                   | Get settings for current account (email)                                | authenticated  |
 | GET    | "/creator/course/list"        | List all of creator's courses                                           | creators       |
 | POST   | "/creator/course"             | Create a new course                                                     | creators       |
@@ -111,3 +112,18 @@ These are some edge cases we won't be considering:
 
 URL of video to test
 http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+
+## Difference between uploading files to Cloudinary and Imagekit
+
+### Cloudinary
+
+1. User submits a form that issues a POST request to the server with encoding type of "multipart/form-data", where one inputs includes an image or video file.
+2. Server handles request, multer middleware parses request body and uploads the file to cloudinary.
+3. Server responds with redirection to another page.
+
+### Imagekit
+
+1. Imagekit React component makes GET request to "/file-upload-authentication".
+2. Request handler makes a call to the Imagekit API and generates some unique keys to perform the upload. It responds back to the client with said keys.
+3. Using keys from response, client makes additional request to Imagekit API to which it sends these keys + file.
+4. Imagekit API responds to client with success or error.
