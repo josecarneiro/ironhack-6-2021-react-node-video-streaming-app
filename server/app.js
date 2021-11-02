@@ -37,7 +37,7 @@ app.use(
     cookie: {
       maxAge: 15 * 24 * 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: false,
+      sameSite: 'none',
       secure: false
     },
     store: connectMongo.create({
