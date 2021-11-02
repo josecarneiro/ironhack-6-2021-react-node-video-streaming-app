@@ -21,7 +21,7 @@ const app = express();
 // We're telling the server to accept requests from the client application
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://hoppscotch.io'],
+    origin: [process.env.CLIENT_APP_ORIGIN, 'https://hoppscotch.io'],
     credentials: true
   })
 );
