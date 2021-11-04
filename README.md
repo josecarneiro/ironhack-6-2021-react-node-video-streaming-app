@@ -123,7 +123,7 @@ http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp
 
 ### Imagekit
 
-1. Imagekit React component makes GET request to "/file-upload-authentication".
+1. Imagekit React component makes GET request to '/file-upload-authentication'.
 2. Request handler makes a call to the Imagekit API and generates some unique keys to perform the upload. It responds back to the client with said keys.
 3. Using keys from response, client makes additional request to Imagekit API to which it sends these keys + file.
 4. Imagekit API responds to client with success or error.
