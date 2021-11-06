@@ -14,40 +14,37 @@ class SubscriptionView extends Component {
     };
   }
 
-  componentDidMount() {
-    loadSubscription()
-      .then((subscription) => {
-        this.setState({ subscription });
-      })
-      .catch((error) => {
-        alert('There was an error loading the subscription.');
-        console.log(error);
-      });
+  async componentDidMount() {
+    try {
+      const subscription = await loadSubscription();
+      this.setState({ subscription });
+    } catch (error) {
+      alert('There was an error loading the subscription.');
+      console.log(error);
+    }
   }
 
-  handleSubscriptionCreation = (paymentMethodToken) => {
-    createSubscription({ paymentMethodToken })
-      .then((subscription) => {
-        this.setState({ subscription });
-        this.props.onUserRefresh();
-      })
-      .catch((error) => {
-        alert('There was an error creating the subscription.');
-        console.log(error);
-      });
+  handleSubscriptionCreation = async (paymentMethodToken) => {
+    try {
+      const subscription = await createSubscription({ paymentMethodToken });
+      this.setState({ subscription });
+      this.props.onUserRefresh();
+    } catch (error) {
+      alert('There was an error creating the subscription.');
+      console.log(error);
+    }
   };
 
-  handleSubscriptionCancelation = (event) => {
+  handleSubscriptionCancelation = async (event) => {
     event.preventDefault();
-    cancelSubscription()
-      .then(() => {
-        this.setState({ subscription: null });
-        this.props.onUserRefresh();
-      })
-      .catch((error) => {
-        alert('There was an error canceling the subscription.');
-        console.log(error);
-      });
+    try {
+      await cancelSubscription();
+      this.setState({ subscription: null });
+      this.props.onUserRefresh();
+    } catch (error) {
+      alert('There was an error canceling the subscription.');
+      console.log(error);
+    }
   };
 
   render() {

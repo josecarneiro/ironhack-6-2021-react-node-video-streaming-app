@@ -3,21 +3,21 @@
 const User = require('./../models/user');
 const Subscription = require('./../models/subscription');
 
-module.exports = (req, res, next) => {
-  const userId = req.session.userId;
+module.exports = async (req, res, next) => {
+  const { userId } = req.session;
   if (userId) {
-    User.findById(userId)
-      .then((user) => {
-        req.user = user.toObject();
-        return Subscription.findOne({ user: userId, active: true });
-      })
-      .then((subscription) => {
-        req.user.subscription = subscription;
-        next();
-      })
-      .catch((error) => {
-        next(error);
+    try {
+      const user = await User.findById(userId);
+      req.user = user.toObject();
+      const subscription = await Subscription.findOne({
+        user: userId,
+        active: true
       });
+      req.user.subscription = subscription;
+      next();
+    } catch (error) {
+      next(error);
+    }
   } else {
     next();
   }

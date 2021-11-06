@@ -12,17 +12,16 @@ class CourseCreateView extends Component {
     };
   }
 
-  handleFormSubmission = (event) => {
+  handleFormSubmission = async (event) => {
     event.preventDefault();
     const { title, description, episodes } = this.state;
-    creatorCourseCreate({ title, description, episodes })
-      .then((course) => {
-        this.props.history.push('/course/list');
-      })
-      .catch((error) => {
-        alert('There was an error creating course.');
-        console.log(error);
-      });
+    try {
+      await creatorCourseCreate({ title, description, episodes });
+      this.props.history.push('/course/list');
+    } catch (error) {
+      alert('There was an error creating course.');
+      console.log(error);
+    }
   };
 
   handleInputChange = (event) => {

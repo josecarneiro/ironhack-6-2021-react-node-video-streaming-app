@@ -20,17 +20,16 @@ class CreatorSignUpView extends Component {
     });
   };
 
-  handleFormSubmission = (event) => {
+  handleFormSubmission = async (event) => {
     event.preventDefault();
     const { name, email, password } = this.state;
-    signUp({ name, email, password, role: 'creator' })
-      .then((user) => {
-        this.props.onAuthenticationChange(user);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('There was an error signing up');
-      });
+    try {
+      const user = await signUp({ name, email, password, role: 'creator' });
+      this.props.onAuthenticationChange(user);
+    } catch (error) {
+      alert('There was an error signing up');
+      console.log(error);
+    }
   };
 
   render() {

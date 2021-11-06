@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "cd server && npm run start",
-    "prepare": "cd server && npm i"
+    "prepare": "cd server && npm i",
+    "job-charge-subscriptions": "cd server && node jobs/charge-subscriptions.js"
   }
 }

@@ -10,15 +10,14 @@ class CreatorCourseListView extends Component {
     };
   }
 
-  componentDidMount() {
-    creatorCourseList()
-      .then((courses) => {
-        this.setState({ courses });
-      })
-      .catch((error) => {
-        alert('There was an error loading all of your courses.');
-        console.log(error);
-      });
+  async componentDidMount() {
+    try {
+      const courses = await creatorCourseList();
+      this.setState({ courses });
+    } catch (error) {
+      alert('There was an error loading all of your courses.');
+      console.log(error);
+    }
   }
 
   render() {

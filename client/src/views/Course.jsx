@@ -10,15 +10,17 @@ class CourseView extends Component {
     };
   }
 
-  componentDidMount() {
-    loadCourse(this.props.match.params.id)
-      .then((course) => {
-        this.setState({ course });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async componentDidMount() {
+    try {
+      const course = await loadCourse(this.props.match.params.id);
+      this.setState({ course });
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  // foo = async () => {
+  // }
 
   render() {
     return (

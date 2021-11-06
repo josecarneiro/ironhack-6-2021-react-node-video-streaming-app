@@ -8,3 +8,13 @@ export const loadCourse = (id) =>
 
 export const loadEpisode = (id) =>
   api.get(`/episode/${id}`).then((response) => response.data.episode);
+
+// export const loadEpisode = async (id) => {
+//   try {
+//     const response = await api.get(`/episode/${id}`);
+//     const episode = response.data.episode;
+//     return episode;
+//   } catch (error) {
+//     throw error;
+//   }
+// };

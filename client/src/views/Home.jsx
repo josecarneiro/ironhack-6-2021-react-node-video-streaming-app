@@ -10,15 +10,14 @@ class HomeView extends Component {
     };
   }
 
-  componentDidMount() {
-    listCourses()
-      .then((courses) => {
-        this.setState({ courses });
-      })
-      .catch((error) => {
-        alert('Something went wrong loading your courses');
-        console.log(error);
-      });
+  async componentDidMount() {
+    try {
+      const courses = await listCourses();
+      this.setState({ courses });
+    } catch (error) {
+      alert('Something went wrong loading your courses');
+      console.log(error);
+    }
   }
 
   render() {

@@ -19,17 +19,16 @@ class SignInView extends Component {
     });
   };
 
-  handleFormSubmission = (event) => {
+  handleFormSubmission = async (event) => {
     event.preventDefault();
     const { email, password } = this.state;
-    signIn({ email, password })
-      .then((user) => {
-        this.props.onAuthenticationChange(user);
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('There was an error signing in');
-      });
+    try {
+      const user = await signIn({ email, password });
+      this.props.onAuthenticationChange(user);
+    } catch (error) {
+      alert('There was an error signing in');
+      console.log(error);
+    }
   };
 
   render() {

@@ -9,15 +9,15 @@ class EpisodeView extends Component {
     };
   }
 
-  componentDidMount() {
-    loadEpisode(this.props.match.params.id)
-      .then((episode) => {
-        this.setState({ episode });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async componentDidMount() {
+    try {
+      const episode = await loadEpisode(this.props.match.params.id);
+      this.setState({ episode });
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   render() {
     return (
       <div>
