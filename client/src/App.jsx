@@ -58,7 +58,11 @@ class App extends Component {
       <BrowserRouter>
         <Navigation user={this.state.user} onSignOut={this.handleSignOut} />
         <Switch>
-          <Route path="/" component={HomeView} exact />
+          <Route
+            path="/"
+            render={(props) => <HomeView {...props} user={this.state.user} />}
+            exact
+          />
           <ProtectedRoute
             path="/sign-up"
             authorized={!this.state.loaded || !this.state.user}
@@ -135,7 +139,13 @@ class App extends Component {
             path="/settings"
             redirect="/sign-up"
             authorized={!this.state.loaded || this.state.user}
-            component={SettingsView}
+            render={(props) => (
+              <SettingsView
+                {...props}
+                user={this.state.user}
+                onSettingsChange={this.handleAuthenticationChange}
+              />
+            )}
           />
           <ProtectedRoute
             path="/subscription"

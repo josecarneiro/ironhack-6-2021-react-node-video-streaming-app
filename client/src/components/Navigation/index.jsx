@@ -7,43 +7,18 @@ import LoginIcon from '@mui/icons-material/Login';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import PaymentIcon from '@mui/icons-material/Payment';
+import BrushIcon from '@mui/icons-material/Brush';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import './styles.scss';
 
 const Navigation = (props) => {
   return (
-    <nav>
+    <nav className="Navigation">
       <Link to="/">
         <EmojiObjectsIcon />
         <span style={{ display: 'none' }}>Edflix</span>
       </Link>
-      {(props.user && (
-        <>
-          <button onClick={props.onSignOut}>
-            <LogoutIcon />
-            <span style={{ display: 'none' }}>Sign Out</span>
-          </button>
-          <Link to="/settings">
-            <SettingsIcon />
-            <span style={{ display: 'none' }}>
-              {props.user.name}'s Settings
-            </span>
-          </Link>
-        </>
-      )) || (
-        <>
-          <Link to="/sign-up">
-            <LoginIcon />
-            <span style={{ display: 'none' }}>Sign Up</span>
-          </Link>
-          <Link to="/sign-in">
-            <LoginIcon />
-            <span style={{ display: 'none' }}>Sign In</span>
-          </Link>
-          <Link to="/sign-up-creator">
-            <LoginIcon />
-            <span style={{ display: 'none' }}>Sign Up as Creator</span>
-          </Link>
-        </>
-      )}
+
       {props.user && props.user.role === 'viewer' && (
         <>
           <Link to="/subscription">
@@ -61,6 +36,35 @@ const Navigation = (props) => {
           <Link to="/course/create">
             <ControlPointIcon />
             <span style={{ display: 'none' }}>Create Course</span>
+          </Link>
+        </>
+      )}
+      {(props.user && (
+        <>
+          <Link to="/settings">
+            <SettingsIcon />
+            <span style={{ display: 'none' }}>
+              {props.user.name}'s Settings
+            </span>
+          </Link>
+          <button onClick={props.onSignOut}>
+            <LogoutIcon />
+            <span style={{ display: 'none' }}>Sign Out</span>
+          </button>
+        </>
+      )) || (
+        <>
+          <Link to="/sign-up">
+            <LoginIcon />
+            <span style={{ display: 'none' }}>Sign Up</span>
+          </Link>
+          <Link to="/sign-in">
+            <VpnKeyIcon />
+            <span style={{ display: 'none' }}>Sign In</span>
+          </Link>
+          <Link to="/sign-up-creator">
+            <BrushIcon />
+            <span style={{ display: 'none' }}>Sign Up as Creator</span>
           </Link>
         </>
       )}

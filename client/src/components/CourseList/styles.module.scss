@@ -1,0 +1,41 @@
+.CourseList {
+  display: flex;
+  gap: 1em;
+  list-style: none;
+  padding: 0;
+  overflow-x: auto;
+}
+
+$course-list-item-width: 12em;
+
+.CourseItem {
+  flex: 1 0 $course-list-item-width;
+  height: $course-list-item-width * 1.5;
+  padding: 1em;
+  border-radius: 1em;
+  color: white;
+  font-weight: bold;
+  background-color: grey;
+  &:nth-child(1) {
+    background: linear-gradient(180deg * 0.75, #00c9ff 0%, #92fe9d 100%);
+  }
+  &:nth-child(2) {
+    background: linear-gradient(180deg * 0.75, #fc466b 0%, #3f5efb 100%);
+  }
+  &:nth-child(3) {
+    background: linear-gradient(180deg * 0.75, #3f2b96 0%, #a8c0ff 100%);
+  }
+  &:nth-child(4) {
+    background: linear-gradient(180deg * 0.75, #d53369 0%, #daae51 100%);
+  }
+  &:nth-child(5) {
+    background: linear-gradient(180deg * 0.75, #fcff9e 0%, #c67700 100%);
+  }
+  a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    text-align: right;
+  }
+}

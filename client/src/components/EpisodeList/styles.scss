@@ -1,0 +1,41 @@
+.EpisodeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  list-style: none;
+  padding: 0;
+}
+
+$course-list-item-width: 50%;
+
+.EpisodeItem {
+  flex: 0 1 calc(50% - 1em / 2);
+  height: 15em;
+  padding: 1em;
+  border: 1px solid hsl(0, 0%, 90%);
+  border-radius: 1em;
+  font-weight: bold;
+  background-color: rgb(230, 230, 230);
+  a {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+    svg {
+      font-size: 4em;
+    }
+    .EpisodeItemOverlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      pointer-events: none;
+    }
+  }
+}

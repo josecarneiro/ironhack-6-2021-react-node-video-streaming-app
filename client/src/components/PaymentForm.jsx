@@ -55,7 +55,9 @@ class NonInjectedPaymentForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleFormSubmission}>
-        <CardElement options={CARD_ELEMENT_OPTIONS} />
+        <div className="CardElementWrapper">
+          <CardElement options={CARD_ELEMENT_OPTIONS} />
+        </div>
         <button>Confirm Subscription</button>
       </form>
     );

@@ -1,45 +1,34 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import EpisodeList from '../components/EpisodeList';
 import { loadCourse } from './../services/course';
 
-class CourseView extends Component {
-  constructor() {
-    super();
-    this.state = {
-      course: null
+const CourseView = (props) => {
+  const [course, changeCourse] = useState(null);
+  const id = props.match.params.id;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const course = await loadCourse(id);
+        changeCourse(course);
+      } catch (error) {
+        console.log(error);
+      }
     };
-  }
+    fetchData();
+  }, [id]);
 
-  async componentDidMount() {
-    try {
-      const course = await loadCourse(this.props.match.params.id);
-      this.setState({ course });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // foo = async () => {
-  // }
-
-  render() {
-    return (
-      <div>
-        {this.state.course && (
-          <>
-            <h1>{this.state.course.title}</h1>
-            <ul>
-              {this.state.course.episodes.map((episode) => (
-                <li key={episode._id}>
-                  <Link to={`/episode/${episode._id}`}>{episode.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      {course && (
+        <>
+          <h2>{course.title}</h2>
+          <EpisodeList episodes={course.episodes} />
+        </>
+      )}
+    </div>
+  );
+};
 
 export default CourseView;

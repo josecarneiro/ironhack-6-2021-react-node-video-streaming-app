@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { loadEpisode } from './../services/course';
+import { loadEpisode } from '../../services/course';
+import './styles.scss';
 
 class EpisodeView extends Component {
   constructor() {
@@ -20,7 +21,7 @@ class EpisodeView extends Component {
 
   render() {
     return (
-      <div>
+      <div className="EpisodeView">
         {this.state.episode && (
           <>
             <h1>{this.state.episode.title}</h1>

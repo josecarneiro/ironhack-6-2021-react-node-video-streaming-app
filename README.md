@@ -52,6 +52,7 @@ Some scripts need to run at predetermined intervals.
 | POST   | "/subscription"               | Create new viewer subscription (credit card details - stripe token)     | viewers        |
 | PATCH  | "/subscription"               | Create new viewer subscription (credit card details - stripe token)     | viewers        |
 | GET    | "/settings"                   | Get settings for current account (email)                                | authenticated  |
+| PATCH  | "/settings"                   | Set settings for current account (email and name)                       | authenticated  |
 | GET    | "/creator/course/list"        | List all of creator's courses                                           | creators       |
 | POST   | "/creator/course"             | Create a new course                                                     | creators       |
 | PATCH  | "/creator/course/:id"         | Edit single course                                                      | creators       |

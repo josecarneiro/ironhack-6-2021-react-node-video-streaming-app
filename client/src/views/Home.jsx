@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import CourseList from '../components/CourseList';
 import { listCourses } from './../services/course';
 
 class HomeView extends Component {
@@ -23,15 +24,18 @@ class HomeView extends Component {
   render() {
     return (
       <div>
-        <h1>Edflix</h1>
+        <h1>
+          Welcome to Edflix{this.props.user && ` ${this.props.user.name}`}
+        </h1>
         <h3>Here are some of our newest courses</h3>
-        <ul>
+        <CourseList courses={this.state.courses} />
+        {/* <ul>
           {this.state.courses.map((course) => (
             <li key={course._id}>
               <Link to={`/course/${course._id}`}>{course.title}</Link>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     );
   }
